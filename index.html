@@ -85,7 +85,7 @@
     <div class="hui-title title1"><img src="./img/base/jcxx.png" alt="">检查信息</div>
     <div class="content">
         <input style="display: none" id="photoItem" name="img" type="file">
-        <input style="display: none" capture="camera" id="photoItem_" multiple="multiple" accept="image/*" type="file">
+        <input style="display: none" capture="camera" id="photoItem_" multiple="multiple"  accept="image/*" type="file">
         <button style="display: none">submit</button>
         <div class="uploadBtn" id="showDiv">
             <img src="./img/base/sys.png" alt="">
@@ -115,7 +115,10 @@
     });
     var img_upload = document.getElementById("photoItem");
     var img_area = document.getElementById("showDiv");
+    var photoItem_=document.getElementById("photoItem_");
     img_upload.addEventListener('change', readFile, false);
+
+    photoItem_.addEventListener('change', readFile, false);
 
     function readFile() {
         var file = this.files[0];
