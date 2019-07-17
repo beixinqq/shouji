@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>血常规智能扫描</title>
+    <link rel="stylesheet" type="text/css" href="./css/hui.css"/>
+    <style>
+        body {
+            background-color: #fff
+        }
+
+        .hui-header h1 {
+            font-size: 15px
+        }
+
+        .title1 {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: #333;
+            height: 23px;
+            line-height: 23px;
+            color: #14c96c
+        }
+
+        .title1 img {
+            width: 23px;
+            height: 23px;
+            line-height: 20px;
+            vertical-align: top;
+            margin-right: 8px
+        }
+
+        .content {
+            margin: 10px 10px;
+            background-color: #fff;
+            border-radius: 2px
+        }
+
+        .uploadBtn {
+            margin: 10px auto;
+            height: 237px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 200px;
+            border-radius: 7px;
+            color: #666
+        }
+
+        #showDiv img {
+            width: 100%;
+            height: 237px;
+            vertical-align: middle
+        }
+
+        .realBtn {
+            background-color: #46b9ff !important;
+            margin-top: 15px;
+            width: 60%;
+            margin: 30px auto;
+            color: #fff
+        }
+
+        #hui-loading {
+            top: 34%
+        }
+
+        #hui-loading-in > div {
+            background-color: #46b9ff
+        }
+
+        #hui-loading-text {
+            font-size: 15px;
+            color: #46b9ff
+        }
+    </style>
+</head>
+<body>
+<header class="hui-header">
+    <h1>血常规智能扫描</h1>
+</header>
+<div class="hui-wrap">
+    <div class="hui-title title1"><img src="./img/base/jcxx.png" alt="">检查信息</div>
+    <div class="content">
+        <input style="display: none" id="photoItem" name="img" type="file">
+        <input style="display: none" capture="camera" id="photoItem_" multiple="multiple" accept="image/*" type="file">
+        <button style="display: none">submit</button>
+        <div class="uploadBtn" id="showDiv">
+            <img src="./img/base/sys.png" alt="">
+        </div>
+        <button type="button" class="hui-button  realBtn" style="">扫描验单</button>
+    </div>
+</div>
+<script src="./js/hui.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="jquery.min.js"></script>
+
+<script type="text/javascript">
+    //点击submit
+    $(".realBtn").click(function () {
+        var meuns = ['拍照', '从相册中选择'];
+        var cancel = '取消';
+        hui.actionSheet(meuns, cancel, function (e) {
+            console.log(e.index);
+            if (e.index == 0) {//拍照
+                $("#photoItem_").trigger("click");
+            } else if (e.index == 1) {//从相册中选择
+                $("#photoItem").trigger("click");
+            }
+        });
+
+
+        //$("#photoItem").trigger("click");
+    });
+    var img_upload = document.getElementById("photoItem");
+    var img_area = document.getElementById("showDiv");
+    img_upload.addEventListener('change', readFile, false);
+
+    function readFile() {
+        var file = this.files[0];
+        if (!/image\/\w+/.test(file.type)) {
+            alert("请确保文件为图像类型");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            console.log(this.result);
+            //请求ajax
+            hui.loading('数据加载中');
+            setTimeout(function () {
+                hui.loading(false, true);
+            }, 2000);
+            img_area.innerHTML = '<img src="' + this.result + '" alt=""/>';
+        }
+    }
+
+
+</script>
+</body>
+</html>
